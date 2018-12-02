@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Crystal Collector Game</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="style.css"/>
+    
+    <style type="text/css">   
+        .crystal-image {
+            width: 120px;
+            height: 120px;
+        }
+        
+        body {
+            background-color: lightblue;
+        }
+        
+        #content {
+            background-color: orange;
+            width: 600px;
+            padding: 20px;
+            margin-bottom: 10px;
+            margin-top: 0px;
+        
+        }
+        
+        h1 {
+            background-color: red;
+            width: 500px;
+            margin-bottom: 30px;
+            margin-top: 30px;
+            padding: 10px;
+        
+        }
+        
+        h2 {
+            width: 500px;
+        }
+
+        h3 {
+            margin-top: 0px;
+        }
+        #win-loss {
+            background-color: green;
+            width: 100px;
+            
+            
+            
+        }
+        
+        #score-board {
+            background-color: green;
+            width: 300px;
+            height: 90px;
+            text-align: center;
+            font-size: 40px;
+            padding-top: 40px
+        }
+        #guess-text {
+            background-color:#00ffd5;
+            width: 200px;
+            padding-top: 0px;
+            margin-top: 0px;
+        }
+    </style>
+  
+  
+
+</head>
+<body>
+    <h1>Crystal Collector Game</h1>
+
+    
+
+    <div id="content">
+        <h2>Instructions</h2>
+
+        <p>
+            You will be given a random number at the start of a game. 
+        </p>
+        <p>
+            There are 4 crystal below. By clicking on a crystal you will be adding to your total score.<br>
+        </p>
+        <p>
+            You will win the game by mataching your total score to random numbers, you lose the game if your total score goes about the random number. 
+        </p>
+        <p>
+            The value of each crystal is hidden from you until you click on it.
+        </p>
+        <p>
+            Each time when the game starts, the game will change the values of each crystals.
+        </p>
+    </div>
+
+
+    <h3 id="guess-text"><br>Number to Guess: <span id="number-to-guess"></span></h3>
+
+    <div  id="win-loss">
+        <h3>Wins: <span id="wins-count">0</span></h3>
+        <h3>Losses: <span id="losses-count">0</span></h3>
+    </div>
+
+  <!-- Note that this div is now empty. We will fill it dynamically -->
+    <div id="crystals">
+    </div>
+
+    <h4>Total Score is:</h4>
+    <h3 id= "score-board"><span id="score-count">0</span></h3>
+
+  <!-- JAVASCRIPT  -->
+  <!-- ========================================= -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <script type="text/javascript">
+
+    var targetNumber =Math.floor(Math.random() * (50) + 11);
+    
+    var random1 = Math.floor(Math.random() * (12)+ 1);
+    var random2 = Math.floor(Math.random() * (12)+ 1);
+    var random3 = Math.floor(Math.random() * (12)+ 1);
+    var random4 = Math.floor(Math.random() * (12)+1);
+
+;
+
+    $("#number-to-guess").text(targetNumber);
+
+    var counter = 0;
+    var numberOptions = [random1, random2, random3, random4];
+    var wins= 0;
+    var losses= 0;
+
+   
+    var imageCrystal1 = $("<img>");
+    var imageCrystal2 = $("<img>");
+    var imageCrystal3 = $("<img>");
+    var imageCrystal4 = $("<img>");
+
+
+    // First each crystal will be given the class ".crystal-image".
+    // This will allow the CSS to take effect.
+    imageCrystal1.addClass("crystal-image");
+    imageCrystal2.addClass("crystal-image");
+    imageCrystal3.addClass("crystal-image");
+    imageCrystal4.addClass("crystal-image");
+
+    imageCrystal1.attr("src", "../unit-4-game/assets/images/Marble-1.jpeg");
+    imageCrystal2.attr("src", "../unit-4-game/assets/images/Marble-2.jpeg");
+    imageCrystal3.attr("src", "../unit-4-game/assets/images/Marble-3.jpeg");
+    imageCrystal4.attr("src", "../unit-4-game/assets/images/Marble-4.jpeg");
+
+
+    imageCrystal1.attr("data-crystalvalue", numberOptions[0]);
+    imageCrystal2.attr("data-crystalvalue", numberOptions[1]);
+    imageCrystal3.attr("data-crystalvalue", numberOptions[2]);
+    imageCrystal4.attr("data-crystalvalue", numberOptions[3]);
+
+
+    $("#crystals").append(imageCrystal1);
+    $("#crystals").append(imageCrystal2);
+    $("#crystals").append(imageCrystal3);
+    $("#crystals").append(imageCrystal4);
+
+    $(".crystal-image").on("click", function() {
+
+    
+    var crystalValue = ($(this).attr("data-crystalvalue"));
+    crystalValue = parseInt(crystalValue);
+
+    counter += crystalValue;
+
+    $("#score-count").text(counter);
+
+
+        if (counter === targetNumber) {
+            wins++;
+            $("#wins-count").text(wins);
+            targetNumber =Math.floor(Math.random() * (50)+ 11);
+            // $("#number-to-guess").text(targetNumber);
+            counter = 0;
+
+            
+
+        }
+
+        else if (counter >= targetNumber) {
+            losses++;
+            $("#losses-count").text(losses);
+            targetNumber =Math.floor(Math.random() * (50) +11);
+           
+
+            counter = 0;
+
+     
+        }
+
+       
+        $("#number-to-guess").text(targetNumber);
+
+        $("#score-count").text(counter);
+
+
+    });
+
+  </script>
+</body>
+</html>
